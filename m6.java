@@ -1,4 +1,3 @@
-package gabarito;
 
 import java.util.Scanner;
 
@@ -8,7 +7,7 @@ public class m6 {
 
 		Scanner sc = new Scanner(System.in);
 		
-		// Matrizes
+		
 		int[][] mA = new int[2][2];
 		int[][] mB = new int[2][2];
 		int[][] mC = new int[2][2];
