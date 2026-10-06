@@ -44,6 +44,15 @@ public class m6 {
 			}
 		}
 		
+        // Exibe na tela a matriz resultante
+		System.out.println("Matriz resultante: ");
+		for(int i=0; i < mC.length; i++) { 
+			for(int j=0; j < mC.length; j++) { 
+				System.out.print(mC[i][j]+" ");	
+			}
+			System.out.println();
+		}
+		
 		// Exibe na tela a matriz resultante
 		System.out.println("Matriz resultante: ");
 		for(int i=0; i < mC.length; i++) { 
