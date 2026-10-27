@@ -22,6 +22,17 @@ public class cliente {
             System.out.println("0 - Sair");
             System.out.print("Escolha: ");
 
+
+if (sc.hasNextInt()) {         
+       opcao =  sc.nextInt();
+            sc.nextInt();
+        }else{
+              System.out.println("Digite um numero valido!");
+                sc.nextLine();
+                continue;
+        }
+
+
     }
 
     }
