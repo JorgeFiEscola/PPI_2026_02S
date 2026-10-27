@@ -1,0 +1,30 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // 1. Definir o formato que você espera que o usuário digite
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        
+        System.out.print("Digite uma data no formato dd/MM/yyyy: ");
+        String entradaUsuario = scanner.nextLine();
+        
+        try {
+            // 2. Tentar converter o texto do Scanner para LocalDate
+            LocalDate dataInformada = LocalDate.parse(entradaUsuario, formatador);
+            
+            // 3. Exibir a data registrada com sucesso
+            System.out.println("Data registrada com sucesso: " + dataInformada.format(formatador));
+            
+        } catch (DateTimeParseException e) {
+            // Caso o usuário digite letras ou um formato errado (ex: 2026/10/26 ou 32/13/2026)
+            System.out.println("Erro: Formato de data inválido! Use o padrão dd/MM/yyyy.");
+        } finally {
+            scanner.close();
+        }
+    }
+}
