@@ -11,7 +11,7 @@ public class cliente {
         String[] enderecos = new String[100];
 
         int total = 0;
-        int opcao = 1;
+        int opcao = -1;
 
         while (opcao != 0) {
 
