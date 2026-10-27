@@ -45,7 +45,6 @@ public class m6 {
 
 			}
 		}
-
 		// Exibe na tela a matriz resultante
 		System.out.println("Matriz resultante: ");
 		for (int i = 0; i < mC.length; i++) {
