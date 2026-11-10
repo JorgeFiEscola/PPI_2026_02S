@@ -65,14 +65,14 @@ public class menu {
             while (!sair) {
 
                 System.out.println("\n=== MENU ADMIN ===");
-                System.out.println("1 - Visao geral da oficina");
-                System.out.println("2 - Gerenciar atendimentos");
-                System.out.println("3 - Gerenciar clientes");
-                System.out.println("4 - Gerenciar veiculos");
-                System.out.println("5 - Gerenciar funcionarios");
-                System.out.println("6 - Servicos e orcamentos");
-                System.out.println("7 - Gerenciar pecas");
-                System.out.println("8 - Historico e relatorios");
+                System.out.println("1 - Visão Geral da Oficina");
+                System.out.println("2 - Gerenciar Atendimentos");
+                System.out.println("3 - Gerenciar Clientes");
+                System.out.println("4 - Gerenciar Veículos");
+                System.out.println("5 - Gerenciar Funcionários");
+                System.out.println("6 - Servicos e Orçamentos");
+                System.out.println("7 - Gerenciar Peças");
+                System.out.println("8 - Historico e Relatórios");
                 System.out.println("0 - Sair");
                 System.out.print("Escolha: ");
 
@@ -228,7 +228,64 @@ public class menu {
 
                 } else if (opcao == 4) {
 
-                    System.out.println("Gerenciar veiculos");
+                    //VEÍCULOS
+                    boolean Vsair = false;
+                    int RspPG1 = 0;
+                    String entV;
+                    String[] placa = new String[100];
+                    String[] marca = new String[100];
+                    String[] modelo = new String[100];
+                    int[] ano = new int[100];
+                    int[] km = new int[100];
+                    
+                    while(!Vsair){
+                    System.out.print("\n=== GERENCIAR VEÍCULOS ===");
+                    System.out.println("\nDigite '1' para Consultar um Veículo.");
+                    System.out.println("\nDigite '2' para Cadastrar um Veículo.");
+                    System.out.print("\nComando: ");
+                    RspPG1 = usuario.nextInt();                    
+
+                    if (RspPG1 == 1){
+                         for (int i = 0; i < total; i++){
+                            System.out.println("\n=== CONSULTAR VEÍCULO ===");
+                            System.out.println("Digite a Placa do Veículo Cadastrado: ");
+                            entV = usuario.nextLine();
+
+                            if (entV == placa[i]){
+                            System.out.print("Veículo (ID): " +i);
+                            System.out.print("Placa: " +placa[i]);
+                            System.out.print("Cliente: " +nomes[i]);
+                            System.out.print("Modelo: " +modelo[i]);
+                            System.out.print("Marca: " +marca[i]);
+                            System.out.print("Ano: " +ano[i]);
+                            System.out.print("Quilometragem" +km[i] );
+                            System.out.println("Digite 'S' para Sair...");
+                            entV = usuario.nextLine();
+                            }
+                            }
+                         }
+                    
+                        if (RspPG1 == 2){
+                        for (int i = 0; i < total; i++){
+                        System.out.println("\n Cadastre a Placa do Veículo:");
+                        usuario.nextLine();
+                        placa[i] = usuario.nextLine();
+                        System.out.println("\n Cadastre o Modelo do Veículo:");
+                        modelo[i] = usuario.nextLine();
+                        System.out.println("\n Cadastre a Marca do Veículo:");
+                        marca[i] = usuario.nextLine();
+
+                        System.out.println("\n Cadastre a Quilometragem do Veículo:");
+                        km[i] = usuario.nextInt();
+                        System.out.println("\n Cadastre o Ano do Veículo:");
+                        ano[i] = usuario.nextInt();
+
+                        System.out.println("\n Cadastre o Dono do Veículo:");
+                        nomes[i] = usuario.nextLine();
+                        }
+                    }
+                }
+                
 
                 } else if (opcao == 5) {
 
