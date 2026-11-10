@@ -241,8 +241,8 @@ public class menu {
                     while(!Vsair){
                     System.out.print("\n=== GERENCIAR VEÍCULOS ===");
                     System.out.println("\nDigite '1' para Consultar um Veículo.");
-                    System.out.println("\nDigite '2' para Cadastrar um Veículo.");
-                    System.out.print("\nComando: ");
+                    System.out.println("Digite '2' para Cadastrar um Veículo.");
+                    System.out.print("Comando: ");
                     RspPG1 = usuario.nextInt();                    
 
                     if (RspPG1 == 1){
