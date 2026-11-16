@@ -91,7 +91,7 @@ public class menu {
 
                 } else if (opcao == 2) {
 
-                    System.out.println("Gerenciar atendimentos");
+                    Atendimento.menuAtendimentos(usuario);
 
                 } else if (opcao == 3) {
 
@@ -403,7 +403,7 @@ public class menu {
 
                 } else if (opcao == 3) {
 
-                    System.out.println("Atendimentos");
+                    Atendimento.menuAtendimentos(usuario);
 
                 } else if (opcao == 4) {
 
