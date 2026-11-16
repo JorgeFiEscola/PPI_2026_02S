@@ -61,12 +61,12 @@ public class servicos {
 					
 					System.out.println ("Valor da mão de obra: R$");
 					maoObra[posicao] = tec.nextDouble();
-					tec.nextLine();
 					
 					System.out.println ("Quantidade de peças (0 à 10):  ");
 					int qtd = tec.nextInt();
+					tec.nextLine();
 					
-					if (qtd>max_pecas) {
+					if (qtd<0||qtd> max_pecas) {
 						System.out.println("Quantidade inválida. Cadastro cancelado.");
 						break;
 					}
@@ -79,11 +79,12 @@ public class servicos {
 					for (int p = 0; p<qtd; p++) {
 						System.out.println("\nPeça " + (p+1));
 						
-						System.out.print("Descrição");
+						System.out.print("Descrição: ");
 						descricaoPeca[posicao][p] = tec.nextLine();
 						
 						System.out.print("Valor: R$ ");
 						valorPeca[posicao][p] = tec.nextDouble();
+						tec.nextLine();
 						
 						System.out.print("A peça está disponível? (S/N): ");
 						String resposta = tec.nextLine();
@@ -104,7 +105,7 @@ public class servicos {
 					quantidadeServicos++;
 					
 					System.out.println("\nServico cadastrado!");
-					System.out.printf("Total do serviço: R$ %.2f%n"
+					System.out.printf("Total do serviço: R$  %.2f%n",
 							+ totalServico[posicao]);
 					
 				} else {
@@ -127,19 +128,19 @@ public class servicos {
 							
 							System.out.println("\nServico: " + descricaoServicos[i]);
 							
-							System.out.printf("Mão de obra: R$ %.2f%n" + maoObra[i]);
+							System.out.printf("Mão de obra: R$ %.2f%n", + maoObra[i]);
 							
-						for (int p =0; p<quantidadePecas[i]; p++) {	
+						for (int p = 0; p<quantidadePecas[i]; p++) {	
 							
-							System.out.println("Peça: " + descricaoPeca[i][p]);
+							System.out.println("Peça:" + descricaoPeca[i][p]);
 							
-							System.out.printf("Valor: R$ %.2f%n" + valorPeca[i][p]);
+							System.out.printf("Valor: R$ %.2f%n", + valorPeca[i][p]);
 							
 							System.out.println ("Situaçao: " + statusPeca[i] [p]);
 							
 						}
 						
-						System.out.printf("Total do servico: R$ %.2f%n" + totalServico[i]);
+						System.out.printf("Total do servico: R$ %.2f%n", + totalServico[i]);
 						
 						totalAtendimento+= totalServico[i];
 						
@@ -149,7 +150,7 @@ public class servicos {
 						
 						if (encontrou) {
 							
-							System.out.printf("\nTotal do atendimento: R$ %.2f%n"+ totalAtendimento);
+							System.out.printf("\nTotal do atendimento: R$ %.2f%n", + totalAtendimento);
 							
 						} else {
 							
