@@ -11,60 +11,101 @@ public class Veículo {
     int[] km = new int[100];
 
     //Dados do Programa
-    int RspPG1 = 0;
-    int total = 0;
+boolean Vsair = false;
+                    int RspPG1 = 0;
+                    String entV;
     
-    //Pré-Associações FK --------------!!
-    String Cliente;
-    Cliente = "Harry";
+                    
+                    while(!Vsair){
+                    System.out.print("\n=== GERENCIAR VEÍCULOS ===");
+                    System.out.println(nomes[totalV] +" "+nomes[total]);
+                    System.out.println("\n1 - Cadastrar um Veículo.");
+                    System.out.println("2 - Consultar um Veículo.");
+                    System.out.println("0 - Retornar");
+                    System.out.print("Comando: ");
+                    RspPG1 = usuario.nextInt();      
+                    
+                    if (RspPG1 > 2){
+                        System.out.println("\nDigite um Número Válido!");
+                        System.out.println("Comando: ");
+                        RspPG1 = usuario.nextInt();
+                    }
+                        
+                        if (RspPG1 == 2){
 
-    //Seleção se deseja Consultar ou Cadastrar
-    while (RspPG1 >= 1 || RspPG1 <= 2){
-    System.out.print("\n=== OFICINA ===");
-    System.out.println("Digite '1' para Consultar um Veículo.");
-    System.out.println("Digite '2' para Cadastrar um Veículo.");
-    System.out.print("Comando: ");
-    RspPG1 = enter.nextInt();
+                         for (int i = 0; i < totalV; i++){
+                            if (totalV == 0){
+                                System.out.println("Sem Veículos Cadastrados!");
+                            }else{
+                            System.out.println("\n=== CONSULTAR VEÍCULO ===");
+                            System.out.println(placa[i]);
+                            System.out.println("Digite a Placa do Veículo Cadastrado: ");
+                            usuario.nextLine();
+                            entV = usuario.nextLine();
 
-    if (RspPG1 == 1){
-        System.out.println("\n=== OFICINA ===");
-         System.out.print("Veículo (ID?): ");
-         System.out.print("Placa: " +placa);
-         System.out.print("Cliente: " +Cliente);
-         System.out.print("Modelo: " +modelo);
-         System.out.print("Marca: " +marca);
-         System.out.print("Ano: " +ano);
-         System.out.print("Quilometragem" +km );
-    
-    } else if (RspPG1 == 2){
-        for (int i = 0; i < total; i++){
-        System.out.println("\n Cadastre a Placa do Veículo:");
-        enter.nextLine();
-        placa[i] = enter.nextLine();
-        System.out.println("\n Cadastre o Modelo do Veículo:");
-        modelo[i] = enter.nextLine();
-        System.out.println("\n Cadastre a Marca do Veículo:");
-        marca[i] = enter.nextLine();
+                            if (entV.equals(placa[i])){
+                            System.out.println("Veículo (ID): " +i);
+                            System.out.println("Placa: " +placa[i]);
+                            System.out.println("Cliente: " +nomes[i]);
+                            System.out.println("Modelo: " +modelo[i]);
+                            System.out.println("Marca: " +marca[i]);
+                            System.out.println("Ano: " +ano[i]);
+                            System.out.println("Quilometragem" +km[i] );
+                            System.out.println("Digite 'S' para Sair...");
+                            entV = usuario.nextLine();
+                            }else{
+                                System.out.println("\nVeículo Não Tem Cadastro!");
+                            }
+                            }
+                            }
+                         }
+                    
+                        if (RspPG1 == 1){
 
-        System.out.println("\n Cadastre a Quilometragem do Veículo:");
-        km[i] = enter.nextInt();
-        System.out.println("\n Cadastre o Ano do Veículo:");
-        ano[i] = enter.nextInt();
+                        if(totalV < 100){                        
+                        System.out.println("\n Cadastre a Placa do Veículo:");
+                        usuario.nextLine();
+                        String placaPK = usuario.nextLine();
+                        System.out.println("\n Cadastre o Modelo do Veículo:");
+                        String modeloK = usuario.nextLine();
+                        System.out.println("\n Cadastre a Marca do Veículo:");
+                        String marcaK = usuario.nextLine();
 
-        System.out.println("\n Cadastre o Dono do Veículo:");
-        Cliente = enter.nextLine();
-        //Criar um sistema que conecte essa aba ao Cliente.-------------------------!!
+                        System.out.println("\n Cadastre a Quilometragem do Veículo:");
+                        int kmK = usuario.nextInt();
+                        System.out.println("\n Cadastre o Ano do Veículo:");
+                        int anoK = usuario.nextInt();
 
-        //Código relacionado a Data/Ano do Carro.
-             while (ano[i] > 9999){
-            System.out.println("\n Ano Inválido! Insira novamente: ");
-            ano[i] = enter.nextInt();
-            }
+                        System.out.println("\n Cadastre o Dono do Veículo:");
+                        usuario.nextLine();
+                        String clienteV = usuario.nextLine();
+                        
 
-        }
-    }
+                        if (placaPK.isBlank() || modeloK.isBlank() || marcaK.isBlank() || kmK == 0 || anoK == 0){
+                            System.out.println("\n Preencha Todos os Campos!");
+                        
+                        }else if(!clienteV.equals(nomes[totalV])){
+                            System.out.println("\n Cliente Não Cadastrado!");
+                          
+                        }else{
+                            placa[totalV] = placaPK;
+                            modelo[totalV] = modeloK;
+                            marca[totalV] = marcaK;
+                            km[totalV] = kmK;
+                            ano[totalV] = anoK;
+                            totalV++;
+                            System.out.println("\n Veículo Cadastrado!!");
 
-    }        
+                        }
+                            }else{
+                                System.out.println("\n Limite de Veículos atingidos!");
+                            }
+                    }
+
+                    if (RspPG1 == 0){
+                        System.out.println("");
+                    }
+                }      
 }
 
 
