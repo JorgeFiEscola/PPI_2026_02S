@@ -3,8 +3,12 @@ import java.util.Scanner;
 public class cliente {
 
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
+        menuClientes(sc);
+        sc.close();
+    }
+
+    public static void menuClientes(Scanner sc) {
 
         String[] nomes = new String[100];
         String[] telefones = new String[100];
@@ -115,6 +119,5 @@ public class cliente {
             }
         }
 
-        sc.close();
     }
 }

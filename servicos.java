@@ -1,5 +1,3 @@
-package ServicoDallCar;
-
 import java.util.Scanner;
 
 
@@ -7,9 +5,13 @@ public class servicos {
 
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		Scanner tec = new Scanner (System.in);
+        Scanner tec = new Scanner(System.in);
+        menuServicos(tec);
+        tec.close();
+    }
+
+    public static void menuServicos(Scanner tec) {
+        // TODO Auto-generated method stub
 		
 		
 		//LIMITES DO PROTÓTIPO
@@ -169,11 +171,7 @@ public class servicos {
 								
 			}  while (opcao!=0);
 			
-			tec.close();
+			
 							
 		}
-}			
-						
-				
-			
-		
+}
