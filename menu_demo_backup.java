@@ -1,7 +1,7 @@
 
 import java.util.Scanner;
 
-public class menus {
+public class menu_demo_backup {
 
     public static void main(String[] args) {
 
