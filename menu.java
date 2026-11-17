@@ -39,6 +39,13 @@ public class menu {
     static String[] donos = new String[100];
     static int totalVeiculos = 0;
 
+    // FUNCIONARIOS - dados guardados em vetores, como no cadastro de clientes
+    static String[] nomesFuncionarios = new String[100];
+    static String[] telefonesFuncionarios = new String[100];
+    static String[] cargosFuncionarios = new String[100];
+    static String[] situacoesFuncionarios = new String[100];
+    static int totalFuncionarios = 0;
+
     public static void main(String[] args) {
         Scanner usuario = new Scanner(System.in);
         int tipoUsuario = 0;
@@ -127,13 +134,13 @@ public class menu {
             } else if (opcao == 4) {
                 menuVeiculos(usuario); // funcao dentro deste arquivo
             } else if (opcao == 5) {
-                System.out.println("Aqui estao seus funcionarios");
+                menuFuncionarios(usuario);
             } else if (opcao == 6) {
                 menuServicos(usuario); // funcao dentro deste arquivo
             } else if (opcao == 7) {
                 System.out.println("Aqui estao suas pecas");
             } else if (opcao == 8) {
-                System.out.println("Aqui estao seus relatorios");
+                menuRelatorios(usuario);
             } else if (opcao == 0) {
                 sair = true;
                 System.out.println("Saindo do painel do Administrador...");
@@ -493,4 +500,199 @@ public class menu {
             }
         }
     }
+
+    // ==================== FUNCIONARIOS - OPCAO 5 DO ADMIN ====================
+    public static void menuFuncionarios(Scanner sc) {
+        int opcao = -1;
+        while (opcao != 0) {
+            System.out.println("\n=== GERENCIAR FUNCIONARIOS ===");
+            System.out.println("1 - Cadastrar funcionario");
+            System.out.println("2 - Listar funcionarios");
+            System.out.println("3 - Buscar funcionario");
+            System.out.println("4 - Alterar situacao do funcionario");
+            System.out.println("0 - Voltar");
+            System.out.print("Escolha: ");
+            opcao = lerInt(sc);
+
+            if (opcao == 1) {
+                if (totalFuncionarios < 100) {
+                    System.out.print("Nome: ");
+                    String nome = sc.nextLine().trim();
+                    System.out.print("Telefone: ");
+                    String telefone = sc.nextLine().trim();
+                    System.out.print("Cargo: ");
+                    String cargo = sc.nextLine().trim();
+                    if (nome.isBlank() || telefone.isBlank() || cargo.isBlank()) {
+                        System.out.println("Preencha todos os campos!");
+                    } else {
+                        nomesFuncionarios[totalFuncionarios] = nome;
+                        telefonesFuncionarios[totalFuncionarios] = telefone;
+                        cargosFuncionarios[totalFuncionarios] = cargo;
+                        situacoesFuncionarios[totalFuncionarios] = "Ativo";
+                        totalFuncionarios++;
+                        System.out.println("Funcionario cadastrado!");
+                    }
+                } else {
+                    System.out.println("Limite de funcionarios atingido!");
+                }
+            } else if (opcao == 2) {
+                if (totalFuncionarios == 0) {
+                    System.out.println("Nenhum funcionario cadastrado!");
+                } else {
+                    for (int i = 0; i < totalFuncionarios; i++) {
+                        System.out.println("\nFuncionario " + (i + 1));
+                        System.out.println("Nome: " + nomesFuncionarios[i]);
+                        System.out.println("Telefone: " + telefonesFuncionarios[i]);
+                        System.out.println("Cargo: " + cargosFuncionarios[i]);
+                        System.out.println("Situacao: " + situacoesFuncionarios[i]);
+                    }
+                }
+            } else if (opcao == 3) {
+                System.out.print("Digite o nome: ");
+                String busca = sc.nextLine().trim();
+                boolean encontrado = false;
+                for (int i = 0; i < totalFuncionarios; i++) {
+                    if (nomesFuncionarios[i].equalsIgnoreCase(busca)) {
+                        System.out.println("\nFuncionario " + (i + 1));
+                        System.out.println("Nome: " + nomesFuncionarios[i]);
+                        System.out.println("Telefone: " + telefonesFuncionarios[i]);
+                        System.out.println("Cargo: " + cargosFuncionarios[i]);
+                        System.out.println("Situacao: " + situacoesFuncionarios[i]);
+                        encontrado = true;
+                    }
+                }
+                if (!encontrado) {
+                    System.out.println("Funcionario nao encontrado!");
+                }
+            } else if (opcao == 4) {
+                System.out.print("Numero do funcionario na lista: ");
+                int numero = lerInt(sc);
+                if (numero < 1 || numero > totalFuncionarios) {
+                    System.out.println("Funcionario nao encontrado!");
+                } else {
+                    int i = numero - 1;
+                    System.out.println("Funcionario: " + nomesFuncionarios[i]);
+                    System.out.println("1 - Ativo");
+                    System.out.println("2 - Inativo");
+                    System.out.print("Escolha: ");
+                    int situacao = lerInt(sc);
+                    if (situacao == 1) {
+                        situacoesFuncionarios[i] = "Ativo";
+                        System.out.println("Situacao atualizada!");
+                    } else if (situacao == 2) {
+                        situacoesFuncionarios[i] = "Inativo";
+                        System.out.println("Situacao atualizada!");
+                    } else {
+                        System.out.println("Opcao invalida!");
+                    }
+                }
+            } else if (opcao == 0) {
+                System.out.println("Voltando ao menu do administrador...");
+            } else {
+                System.out.println("Opcao invalida!");
+            }
+        }
+    }
+
+    // ==================== HISTORICO E RELATORIOS - OPCAO 8 ====================
+    public static void menuRelatorios(Scanner sc) {
+        int opcao = -1;
+        while (opcao != 0) {
+            System.out.println("\n=== HISTORICO E RELATORIOS ===");
+            System.out.println("1 - Resumo geral da oficina");
+            System.out.println("2 - Historico dos atendimentos");
+            System.out.println("3 - Relatorio de servicos e valores");
+            System.out.println("4 - Consultar historico por placa");
+            System.out.println("0 - Voltar");
+            System.out.print("Escolha: ");
+            opcao = lerInt(sc);
+
+            if (opcao == 1) {
+                int ativos = 0;
+                for (int i = 0; i < totalFuncionarios; i++) {
+                    if (situacoesFuncionarios[i].equals("Ativo")) {
+                        ativos++;
+                    }
+                }
+                double valorTotal = 0;
+                for (int i = 0; i < quantidadeServicos; i++) {
+                    valorTotal += totalServico[i];
+                }
+                System.out.println("\n=== RESUMO GERAL ===");
+                System.out.println("Clientes cadastrados: " + totalClientes);
+                System.out.println("Veiculos cadastrados: " + totalVeiculos);
+                System.out.println("Funcionarios cadastrados: " + totalFuncionarios);
+                System.out.println("Funcionarios ativos: " + ativos);
+                System.out.println("Atendimentos registrados: " + totalAtendimentos);
+                System.out.println("Servicos cadastrados: " + quantidadeServicos);
+                System.out.printf("Soma dos servicos orcados: R$ %.2f%n", valorTotal);
+                System.out.println("OBS: valor orcado nao significa pagamento recebido.");
+
+            } else if (opcao == 2) {
+                if (totalAtendimentos == 0) {
+                    System.out.println("Nenhum atendimento registrado!");
+                } else {
+                    for (int i = 0; i < totalAtendimentos; i++) {
+                        System.out.println("\nAtendimento " + (i + 1));
+                        System.out.println("Placa: " + placasAtendimento[i]);
+                        System.out.println("Data de entrada: " + datas[i]);
+                        System.out.println("Problema: " + problemas[i]);
+                        System.out.println("Situacao: " + status[i]);
+                    }
+                }
+
+            } else if (opcao == 3) {
+                if (quantidadeServicos == 0) {
+                    System.out.println("Nenhum servico cadastrado!");
+                } else {
+                    double valorTotal = 0;
+                    for (int i = 0; i < quantidadeServicos; i++) {
+                        System.out.println("\nServico " + (i + 1));
+                        System.out.println("Atendimento: " + numeroAtendimento[i]);
+                        System.out.println("Descricao: " + descricaoServicos[i]);
+                        System.out.printf("Mao de obra: R$ %.2f%n", maoObra[i]);
+                        System.out.println("Quantidade de pecas: " + quantidadePecas[i]);
+                        System.out.printf("Total do servico: R$ %.2f%n", totalServico[i]);
+                        valorTotal += totalServico[i];
+                    }
+                    System.out.printf("\nTOTAL ORCADO: R$ %.2f%n", valorTotal);
+                    System.out.println("OBS: nao representa faturamento recebido.");
+                }
+
+            } else if (opcao == 4) {
+                System.out.print("Digite a placa do veiculo: ");
+                String placaBusca = sc.nextLine().trim();
+                boolean encontrado = false;
+                double valorTotal = 0;
+                for (int i = 0; i < totalAtendimentos; i++) {
+                    if (placasAtendimento[i].equalsIgnoreCase(placaBusca)) {
+                        encontrado = true;
+                        int numero = i + 1;
+                        System.out.println("\nAtendimento " + numero);
+                        System.out.println("Data: " + datas[i]);
+                        System.out.println("Problema: " + problemas[i]);
+                        System.out.println("Situacao: " + status[i]);
+                        for (int j = 0; j < quantidadeServicos; j++) {
+                            if (numeroAtendimento[j] == numero) {
+                                System.out.println("Servico: " + descricaoServicos[j]);
+                                System.out.printf("Valor: R$ %.2f%n", totalServico[j]);
+                                valorTotal += totalServico[j];
+                            }
+                        }
+                    }
+                }
+                if (encontrado) {
+                    System.out.printf("Total orcado para a placa: R$ %.2f%n", valorTotal);
+                } else {
+                    System.out.println("Nenhum atendimento encontrado para esta placa!");
+                }
+
+            } else if (opcao == 0) {
+                System.out.println("Voltando ao menu do administrador...");
+            } else {
+                System.out.println("Opcao invalida!");
+            }
+        }
+    }
+
 }
