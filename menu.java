@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class menu {
 
-    // Os dados ficam guardados enquanto o programa estiver aberto.
+    
     // CLIENTES
     static String[] nomes = new String[100];
     static String[] telefones = new String[100];
@@ -39,7 +39,7 @@ public class menu {
     static String[] donos = new String[100];
     static int totalVeiculos = 0;
 
-    // FUNCIONARIOS - dados guardados em vetores, como no cadastro de clientes
+    // FUNCIONARIOS
     static String[] nomesFuncionarios = new String[100];
     static String[] telefonesFuncionarios = new String[100];
     static String[] cargosFuncionarios = new String[100];
