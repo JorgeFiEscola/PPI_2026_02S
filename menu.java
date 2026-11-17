@@ -128,15 +128,15 @@ public class menu {
             if (opcao == 1) {
                 System.out.println("Voce esta na visao geral da oficina");
             } else if (opcao == 2) {
-                menuAtendimentos(usuario); // funcao dentro deste arquivo
+                menuAtendimentos(usuario); 
             } else if (opcao == 3) {
-                menuClientes(usuario); // funcao dentro deste arquivo
+                menuClientes(usuario); 
             } else if (opcao == 4) {
-                menuVeiculos(usuario); // funcao dentro deste arquivo
+                menuVeiculos(usuario); 
             } else if (opcao == 5) {
                 menuFuncionarios(usuario);
             } else if (opcao == 6) {
-                menuServicos(usuario); // funcao dentro deste arquivo
+                menuServicos(usuario); 
             } else if (opcao == 7) {
                 System.out.println("Aqui estao suas pecas");
             } else if (opcao == 8) {
