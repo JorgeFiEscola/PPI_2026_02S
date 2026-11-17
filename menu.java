@@ -159,9 +159,9 @@ public class menu {
             if (opcao == 1) {
                 System.out.println("Voce está em seu Painel");
             } else if (opcao == 2) {
-                menuServicos(usuario);
+                   System.out.println("Aqui estão seus Serviços");
             } else if (opcao == 3) {
-                menuAtendimentos(usuario);
+                System.out.println("Aqui estão seus Atendimentos");
             } else if (opcao == 4) {
                 System.out.println("Aqui está seu Histórico");
             } else if (opcao == 5) {
