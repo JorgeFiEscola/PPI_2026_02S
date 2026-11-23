@@ -218,7 +218,7 @@ public class menu {
         System.out.println("Atendimentos concluidos: " + concluidos);
         System.out.println("Atendimentos sinalizados como atrasados: " + atrasadosSinalizados);
         System.out.println("Prontos para retirada: " + prontos);
-        System.out.println("Obs.: atrasos reais exigem cadastro de prazo de entrega.");
+       
 
         System.out.println("\n--- ALERTAS IMPORTANTES ---");
         boolean temAlerta = false;
@@ -882,7 +882,7 @@ public class menu {
                 System.out.println("Atendimentos registrados: " + totalAtendimentos);
                 System.out.println("Servicos cadastrados: " + quantidadeServicos);
                 System.out.printf("Soma dos servicos orcados: R$ %.2f%n", valorTotal);
-                System.out.println("OBS: valor orcado nao significa pagamento recebido.");
+           
 
             } else if (opcao == 2) {
                 if (totalAtendimentos == 0) {
@@ -912,7 +912,7 @@ public class menu {
                         valorTotal += totalServico[i];
                     }
                     System.out.printf("\nTOTAL ORCADO: R$ %.2f%n", valorTotal);
-                    System.out.println("OBS: nao representa faturamento recebido.");
+                   
                 }
 
             } else if (opcao == 4) {
