@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class menu {
 
     // Os dados ficam guardados enquanto o programa estiver aberto.
+    
     // CLIENTES
     static String[] nomes = new String[100];
     static String[] telefones = new String[100];
@@ -49,9 +50,12 @@ public class menu {
     static String funcionarioLogado = ""; // Nome do funcionario autenticado
 
     public static void main(String[] args) {
+        
+        boolean aberto = false;
         Scanner usuario = new Scanner(System.in);
         int tipoUsuario = 0;
 
+        
         while (tipoUsuario != 1 && tipoUsuario != 2) {
             System.out.println("Digite 1 para Administrador ou 2 para Funcionario:");
             tipoUsuario = lerInt(usuario);
@@ -62,6 +66,7 @@ public class menu {
 
         boolean loginSucesso = false;
         String nome = "";
+       
         while (!loginSucesso) {
             System.out.println("Digite suas credenciais para confirmacao.\n");
             System.out.print("Digite seu nome: ");
@@ -72,6 +77,7 @@ public class menu {
             if ((tipoUsuario == 1 && nome.equals("Guto") && cpf.equals("12345")) ||
                 (tipoUsuario == 2 && nome.equals("Adilson") && cpf.equals("12345"))) {
                 loginSucesso = true;
+                aberto = true;
             } else {
                 System.out.println("\nCredenciais incorretas! Tente novamente.\n");
             }
@@ -87,6 +93,7 @@ public class menu {
         }
         usuario.close();
     }
+    
 
     // Evita erro se alguem digitar texto em vez de um numero inteiro.
     public static int lerInt(Scanner sc) {
@@ -111,8 +118,10 @@ public class menu {
         }
     }
 
+
     public static void menuAdministrador(Scanner usuario) {
         boolean sair = false;
+
         while (!sair) {
             System.out.println("\n--Menu do Adm--\n");
             System.out.println("1. Visao geral da oficina");
@@ -375,7 +384,7 @@ public class menu {
             }
         }
     }
-
+    
     // ==================== CLIENTES ====================
     public static void menuClientes(Scanner sc) {
         int opcao = -1;
