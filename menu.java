@@ -48,6 +48,9 @@ public class menu {
 
     public static void main(String[] args) {
         Scanner usuario = new Scanner(System.in);
+        boolean sair = false;
+
+        while (!sair){
         int tipoUsuario = 0;
 
         while (tipoUsuario != 1 && tipoUsuario != 2) {
@@ -82,6 +85,8 @@ public class menu {
             System.out.println("\nPainel do Funcionario " + nome + "!\n");
             menuFuncionario(usuario);
         }
+        System.out.println("\nRetornando a Tela Inicial...\n");
+    }
         usuario.close();
     }
 
@@ -165,6 +170,9 @@ public class menu {
 
             if (opcao == 1) {
                 System.out.println("Voce esta em seu painel");
+
+                
+
             } else if (opcao == 2) {
                 menuServicos(usuario);
             } else if (opcao == 3) {
