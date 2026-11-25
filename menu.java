@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class menu {
 
     // Os dados ficam guardados enquanto o programa estiver aberto.
+    
     // CLIENTES
     static String[] nomes = new String[100];
     static String[] telefones = new String[100];
@@ -24,6 +25,7 @@ public class menu {
     static double[] maoObra = new double[MAX_SERVICOS];
     static int[] numeroAtendimento = new int[MAX_SERVICOS];
     static double[] totalServico = new double[MAX_SERVICOS];
+    static String[] funcionariosServicos = new String[MAX_SERVICOS]; // Funcionario responsavel pelo servico
     static String[][] descricaoPeca = new String[MAX_SERVICOS][MAX_PECAS];
     static double[][] valorPeca = new double[MAX_SERVICOS][MAX_PECAS];
     static String[][] statusPeca = new String[MAX_SERVICOS][MAX_PECAS];
@@ -45,14 +47,18 @@ public class menu {
     static String[] cargosFuncionarios = new String[100];
     static String[] situacoesFuncionarios = new String[100];
     static int totalFuncionarios = 0;
+    static String funcionarioLogado = ""; // Nome do funcionario autenticado
 
     public static void main(String[] args) {
+        
+        boolean aberto = false;
         Scanner usuario = new Scanner(System.in);
         boolean sair = false;
 
         while (!sair){
         int tipoUsuario = 0;
 
+        
         while (tipoUsuario != 1 && tipoUsuario != 2) {
             System.out.println("Digite 1 para Administrador ou 2 para Funcionario:");
             tipoUsuario = lerInt(usuario);
@@ -63,6 +69,7 @@ public class menu {
 
         boolean loginSucesso = false;
         String nome = "";
+       
         while (!loginSucesso) {
             System.out.println("Digite suas credenciais para confirmacao.\n");
             System.out.print("Digite seu nome: ");
@@ -73,6 +80,7 @@ public class menu {
             if ((tipoUsuario == 1 && nome.equals("Guto") && cpf.equals("12345")) ||
                 (tipoUsuario == 2 && nome.equals("Adilson") && cpf.equals("12345"))) {
                 loginSucesso = true;
+                aberto = true;
             } else {
                 System.out.println("\nCredenciais incorretas! Tente novamente.\n");
             }
@@ -83,12 +91,14 @@ public class menu {
             menuAdministrador(usuario);
         } else {
             System.out.println("\nPainel do Funcionario " + nome + "!\n");
+            funcionarioLogado = nome;
             menuFuncionario(usuario);
         }
         System.out.println("\nRetornando a Tela Inicial...\n");
     }
         usuario.close();
     }
+    
 
     // Evita erro se alguem digitar texto em vez de um numero inteiro.
     public static int lerInt(Scanner sc) {
@@ -113,8 +123,10 @@ public class menu {
         }
     }
 
+
     public static void menuAdministrador(Scanner usuario) {
         boolean sair = false;
+
         while (!sair) {
             System.out.println("\n--Menu do Adm--\n");
             System.out.println("1. Visao geral da oficina");
@@ -131,7 +143,7 @@ public class menu {
             System.out.println();
 
             if (opcao == 1) {
-                System.out.println("Voce esta na visao geral da oficina");
+                visaoGeralAdministrador();
             } else if (opcao == 2) {
                 menuAtendimentos(usuario); 
             } else if (opcao == 3) {
@@ -155,6 +167,193 @@ public class menu {
         }
     }
 
+    // ==================== VISAO GERAL - OPCAO 1 DO ADMIN ====================
+    // Mostra os dados cadastrados, sem usar numeros inventados.
+    public static void visaoGeralAdministrador() {
+        int veiculosNaOficina = 0;
+        int emAndamento = 0;
+        int concluidos = 0;
+        int prontos = 0;
+        int atrasadosSinalizados = 0;
+        int aprovacoesSinalizadas = 0;
+        int servicosSemPecas = 0;
+        int pecasIndisponiveis = 0;
+
+        for (int i = 0; i < totalAtendimentos; i++) {
+            String situacao = status[i] == null ? "" : status[i].toLowerCase(java.util.Locale.ROOT);
+            boolean entregue = situacao.contains("entregue");
+            boolean cancelado = situacao.contains("cancelad");
+            boolean concluido = entregue || situacao.contains("conclu") || situacao.contains("finaliz");
+            boolean pronto = situacao.contains("pronto") || situacao.contains("retirada");
+
+            if (concluido) {
+                concluidos++;
+            } else if (pronto) {
+                prontos++;
+            } else if (!cancelado) {
+                emAndamento++;
+            }
+            if (situacao.contains("atrasad")) atrasadosSinalizados++;
+            if (situacao.contains("aguardando aprova")) aprovacoesSinalizadas++;
+
+            // Conta cada placa uma unica vez nos atendimentos nao entregues/cancelados.
+            if (!entregue && !cancelado && placasAtendimento[i] != null) {
+                boolean placaJaContada = false;
+                for (int j = 0; j < i; j++) {
+                    String situacaoAnterior = status[j] == null ? "" : status[j].toLowerCase(java.util.Locale.ROOT);
+                    if (!situacaoAnterior.contains("entregue") && !situacaoAnterior.contains("cancelad")
+                            && placasAtendimento[i].equalsIgnoreCase(placasAtendimento[j])) {
+                        placaJaContada = true;
+                        break;
+                    }
+                }
+                if (!placaJaContada) veiculosNaOficina++;
+            }
+        }
+
+        for (int i = 0; i < quantidadeServicos; i++) {
+            boolean faltaPeca = false;
+            for (int p = 0; p < quantidadePecas[i]; p++) {
+                if ("Aguardando".equalsIgnoreCase(statusPeca[i][p])) {
+                    pecasIndisponiveis++;
+                    faltaPeca = true;
+                }
+            }
+            if (faltaPeca) servicosSemPecas++;
+        }
+
+        System.out.println("\n======================================");
+        System.out.println(" DALLCAR - VISAO GERAL");
+        System.out.println("======================================");
+
+        System.out.println("\n--- RESUMO DA OFICINA ---");
+        System.out.println("Veiculos na oficina: " + veiculosNaOficina);
+        System.out.println("Atendimentos em andamento: " + emAndamento);
+        System.out.println("Atendimentos concluidos: " + concluidos);
+        System.out.println("Atendimentos sinalizados como atrasados: " + atrasadosSinalizados);
+        System.out.println("Prontos para retirada: " + prontos);
+       
+
+        System.out.println("\n--- ALERTAS IMPORTANTES ---");
+        boolean temAlerta = false;
+        if (atrasadosSinalizados > 0) {
+            System.out.println("[!] " + atrasadosSinalizados + " atendimento(s) sinalizado(s) como atrasado(s).");
+            temAlerta = true;
+        }
+        if (aprovacoesSinalizadas > 0) {
+            System.out.println("[!] " + aprovacoesSinalizadas + " atendimento(s) aguardando aprovacao.");
+            temAlerta = true;
+        }
+        if (servicosSemPecas > 0) {
+            System.out.println("[!] " + servicosSemPecas + " servico(s) com falta de pecas.");
+            temAlerta = true;
+        }
+        if (!temAlerta) System.out.println("Nenhum alerta identificado nos registros atuais.");
+
+        System.out.println("\n--- ATENDIMENTOS PRIORITARIOS ---");
+        int prioritarios = 0;
+        for (int i = 0; i < totalAtendimentos && prioritarios < 3; i++) {
+            String situacao = status[i] == null ? "" : status[i].toLowerCase(java.util.Locale.ROOT);
+            boolean faltaPeca = false;
+            for (int j = 0; j < quantidadeServicos; j++) {
+                if (numeroAtendimento[j] == i + 1) {
+                    for (int p = 0; p < quantidadePecas[j]; p++) {
+                        if ("Aguardando".equalsIgnoreCase(statusPeca[j][p])) faltaPeca = true;
+                    }
+                }
+            }
+            if (situacao.contains("atrasad") || situacao.contains("prioridade")
+                    || situacao.contains("aguardando aprova") || faltaPeca) {
+                String motivo = situacao.contains("atrasad") ? "ATRASADO"
+                        : faltaPeca ? "AGUARDANDO PECA"
+                        : situacao.contains("aguardando aprova") ? "AGUARDANDO APROVACAO" : "PRIORIDADE";
+                System.out.println(placasAtendimento[i] + " - " + problemas[i] + " - " + motivo);
+                prioritarios++;
+            }
+        }
+        if (prioritarios == 0) System.out.println("Nenhum atendimento prioritario identificado.");
+
+        System.out.println("\n--- PROXIMAS ENTREGAS ---");
+        System.out.println("Sem previsoes cadastradas (o sistema ainda nao possui data prevista de entrega).");
+
+        System.out.println("\n--- CONTROLE DE PECAS ---");
+        System.out.println("Pecas aguardando disponibilidade: " + pecasIndisponiveis);
+        System.out.println("Pecas recebidas hoje: nao disponivel (sem registro de recebimento).");
+        System.out.println("Pecas com entrega atrasada: nao disponivel (sem prazo da peca).");
+
+        System.out.println("\n--- ORCAMENTOS ---");
+        System.out.println("Atendimentos sinalizados como aguardando aprovacao: " + aprovacoesSinalizadas);
+        System.out.println("Aprovados / recusados: nao disponivel (sem controle de aprovacao).");
+
+        System.out.println("\n--- FUNCIONARIOS ---");
+        boolean algumFuncionario = false;
+        for (int i = 0; i < totalFuncionarios; i++) {
+            int ativos = contarServicosAtivos(nomesFuncionarios[i]);
+            System.out.println(nomesFuncionarios[i] + " - " + ativos + " servico(s) ativo(s)");
+            algumFuncionario = true;
+        }
+        // Inclui os responsaveis dos servicos ainda nao cadastrados no menu Funcionarios.
+        for (int i = 0; i < quantidadeServicos; i++) {
+            String responsavel = funcionariosServicos[i];
+            if (responsavel == null || responsavel.isBlank()) continue;
+            boolean listado = false;
+            for (int f = 0; f < totalFuncionarios; f++) {
+                if (responsavel.equalsIgnoreCase(nomesFuncionarios[f])) listado = true;
+            }
+            for (int j = 0; j < i; j++) {
+                if (responsavel.equalsIgnoreCase(funcionariosServicos[j])) listado = true;
+            }
+            if (!listado) {
+                System.out.println(responsavel + " - " + contarServicosAtivos(responsavel) + " servico(s) ativo(s)");
+                algumFuncionario = true;
+            }
+        }
+        if (!algumFuncionario) System.out.println("Nenhum funcionario ou responsavel registrado.");
+
+        System.out.println("\n--- AGENDA DO DIA ---");
+        System.out.println("Agenda ainda nao cadastrada neste sistema.");
+
+        System.out.println("\n--- MOVIMENTACOES RECENTES ---");
+        if (totalAtendimentos == 0 && quantidadeServicos == 0) {
+            System.out.println("Nenhum atendimento ou servico registrado.");
+        } else {
+            // Ultimos cadastros em cada categoria; nao e um log cronologico completo.
+            if (totalAtendimentos > 0) {
+                int a = totalAtendimentos - 1;
+                System.out.println("Ultimo atendimento: " + placasAtendimento[a] + " - " + problemas[a]);
+            }
+            if (quantidadeServicos > 0) {
+                int s = quantidadeServicos - 1;
+                System.out.println("Ultimo servico: " + descricaoServicos[s]
+                        + " (atendimento " + numeroAtendimento[s] + ")");
+            }
+        }
+
+        System.out.println("\n--- DESEMPENHO DO MES ---");
+        System.out.println("Atendimentos concluidos no mes: nao disponivel (sem data de conclusao).");
+        System.out.println("Media de tempo por atendimento: nao disponivel (sem data de conclusao).");
+        System.out.println("======================================");
+    }
+
+    public static int contarServicosAtivos(String nomeFuncionario) {
+        int total = 0;
+        for (int i = 0; i < quantidadeServicos; i++) {
+            if (funcionariosServicos[i] != null
+                    && funcionariosServicos[i].equalsIgnoreCase(nomeFuncionario)) {
+                int posicaoAtendimento = numeroAtendimento[i] - 1;
+                if (posicaoAtendimento >= 0 && posicaoAtendimento < totalAtendimentos) {
+                    String situacao = status[posicaoAtendimento] == null
+                            ? "" : status[posicaoAtendimento].toLowerCase(java.util.Locale.ROOT);
+                    if (!situacao.contains("entregue") && !situacao.contains("conclu")
+                            && !situacao.contains("finaliz") && !situacao.contains("cancelad")) {
+                        total++;
+                    }
+                }
+            }
+        }
+        return total;
+    }
+
     public static void menuFuncionario(Scanner usuario) {
         boolean sair = false;
         while (!sair) {
@@ -174,11 +373,15 @@ public class menu {
                 
 
             } else if (opcao == 2) {
-                menuServicos(usuario);
+                              System.out.println("CADE OSSS CODIGOSSSSSSSSSSSSSSSSSSSSSSSSS");
+
+
             } else if (opcao == 3) {
-                menuAtendimentos(usuario);
+                System.out.println("CADE OSSS CODIGOSSSSSSSSSSS");
+
+
             } else if (opcao == 4) {
-                System.out.println("Aqui esta seu historico");
+                historicoFuncionario(funcionarioLogado);
             } else if (opcao == 5) {
                 System.out.println("Aqui esta seu perfil");
             } else if (opcao == 0) {
@@ -189,7 +392,7 @@ public class menu {
             }
         }
     }
-
+    
     // ==================== CLIENTES ====================
     public static void menuClientes(Scanner sc) {
         int opcao = -1;
@@ -384,6 +587,20 @@ public class menu {
                         if (!cadastroValido) {
                             break;
                         }
+                        // Define o responsavel pelo servico.
+                        // No painel do funcionario, usa automaticamente quem fez login.
+                        String responsavel;
+                        if (!funcionarioLogado.isBlank()) {
+                            responsavel = funcionarioLogado;
+                        } else {
+                            System.out.print("Funcionario responsavel pelo servico: ");
+                            responsavel = tec.nextLine().trim();
+                            if (responsavel.isBlank()) {
+                                System.out.println("Funcionario obrigatorio. Cadastro cancelado.");
+                                break;
+                            }
+                        }
+                        funcionariosServicos[posicao] = responsavel;
                         totalServico[posicao] = maoObra[posicao] + somaPecas;
                         quantidadeServicos++;
                         System.out.println("\nServico cadastrado!");
@@ -402,6 +619,7 @@ public class menu {
                         if (numeroAtendimento[i] == atendimentoBusca) {
                             encontrou = true;
                             System.out.println("\nServico: " + descricaoServicos[i]);
+                            System.out.println("Funcionario responsavel: " + funcionariosServicos[i]);
                             System.out.printf("Mao de obra: R$ %.2f%n", maoObra[i]);
                             for (int p = 0; p < quantidadePecas[i]; p++) {
                                 System.out.println("Peca: " + descricaoPeca[i][p]);
@@ -428,7 +646,54 @@ public class menu {
         } while (opcao != 0);
     }
 
-    // ==================== VEICULOS ====================
+    // ==================== HISTORICO DO FUNCIONARIO ====================
+    public static void historicoFuncionario(String nomeFuncionario) {
+        boolean encontrado = false;
+
+        System.out.println("\n=== MEU HISTORICO ===");
+        System.out.println("Funcionario: " + nomeFuncionario);
+
+        for (int i = 0; i < quantidadeServicos; i++) {
+            if (funcionariosServicos[i] != null &&
+                    funcionariosServicos[i].equalsIgnoreCase(nomeFuncionario)) {
+
+                int atendimento = numeroAtendimento[i];
+                int posicao = atendimento - 1;
+
+                // Evita consultar uma posicao de atendimento inexistente.
+                if (posicao < 0 || posicao >= totalAtendimentos) {
+                    continue;
+                }
+
+                encontrado = true;
+
+                System.out.println("\n----------------------------");
+                System.out.println("Servico: " + descricaoServicos[i]);
+                System.out.println("Atendimento: " + atendimento);
+                System.out.println("Data: " + datas[posicao]);
+                System.out.println("Placa: " + placasAtendimento[posicao]);
+                System.out.println("Problema: " + problemas[posicao]);
+                System.out.println("Status: " + status[posicao]);
+                System.out.printf("Valor do servico: R$ %.2f%n", totalServico[i]);
+
+                for (int v = 0; v < totalVeiculos; v++) {
+                    if (placasVeiculo[v].equalsIgnoreCase(placasAtendimento[posicao])) {
+                        System.out.println("Veiculo: " + marcas[v] + " " + modelos[v]);
+                        System.out.println("Ano: " + anos[v]);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!encontrado) {
+            System.out.println("\nNenhum servico encontrado para este funcionario.");
+        }
+
+        System.out.println("----------------------------");
+    }
+
+    // ==================== VEICULOS  ADM ====================
     public static void menuVeiculos(Scanner enter) {
         int opcao = -1;
         while (opcao != 0) {
@@ -602,7 +867,7 @@ public class menu {
         }
     }
 
-    // ==================== HISTORICO E RELATORIOS - OPCAO 8 ====================
+    // ==================== HISTORICO E RELATORIOS - OPCAO 8 ADM ====================
     public static void menuRelatorios(Scanner sc) {
         int opcao = -1;
         while (opcao != 0) {
@@ -634,7 +899,7 @@ public class menu {
                 System.out.println("Atendimentos registrados: " + totalAtendimentos);
                 System.out.println("Servicos cadastrados: " + quantidadeServicos);
                 System.out.printf("Soma dos servicos orcados: R$ %.2f%n", valorTotal);
-                System.out.println("OBS: valor orcado nao significa pagamento recebido.");
+           
 
             } else if (opcao == 2) {
                 if (totalAtendimentos == 0) {
@@ -664,7 +929,7 @@ public class menu {
                         valorTotal += totalServico[i];
                     }
                     System.out.printf("\nTOTAL ORCADO: R$ %.2f%n", valorTotal);
-                    System.out.println("OBS: nao representa faturamento recebido.");
+                   
                 }
 
             } else if (opcao == 4) {
