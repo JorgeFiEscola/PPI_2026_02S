@@ -132,7 +132,7 @@ public class menu {
             System.out.println();
 
             if (opcao == 1) {
-                System.out.println("Voce está na visao Geral da Oficina");
+                System.out.println("Voce está na visão Geral da Oficina");
             } else if (opcao == 2) {
                 menuAtendimentos(usuario); 
             } else if (opcao == 3) {
@@ -173,13 +173,14 @@ public class menu {
                 System.out.println("Voce está em seu Painel");
 
                 
+                
 
             } else if (opcao == 2) {
                 menuServicos(usuario);
             } else if (opcao == 3) {
                 menuAtendimentos(usuario);
             } else if (opcao == 4) {
-                System.out.println("Aqui está seu histórico");
+                System.out.println("Aqui está seu Histórico");
             } else if (opcao == 5) {
                 System.out.println("Aqui está seu Perfil");
             } else if (opcao == 0) {
